@@ -6,6 +6,7 @@
 <title>SUNDI® — Headphones</title>
 <meta name="description" content="Experience crystal-clear sound and unparalleled comfort, whether you're at home or on the go.">
 <meta name="theme-color" content="#D0E3E6">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('has-entrance')</script>
 <style>
 /* ---------- Fonts (local assets) ---------- */
 @font-face{font-family:"Inter";font-style:normal;font-weight:100 900;font-display:block;src:url(assets/inter.woff2) format("woff2")}
@@ -180,7 +181,24 @@ p{margin:0}
 
   .card{grid-area:card;position:relative!important;left:auto!important;top:auto!important;justify-self:start}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* One opening sequence. The original composition is restored when the last beat ends. */
+html.has-entrance .logo{animation:sundi-brand-in .72s cubic-bezier(.22,1,.36,1) .05s both}
+html.has-entrance .nav li{animation:sundi-quiet-in .5s cubic-bezier(.22,1,.36,1) both}
+html.has-entrance .nav li:nth-child(1){animation-delay:.18s}
+html.has-entrance .nav li:nth-child(2){animation-delay:.25s}
+html.has-entrance .nav li:nth-child(3){animation-delay:.32s}
+html.has-entrance .nav li:nth-child(4){animation-delay:.39s}
+html.has-entrance .cart,html.has-entrance .menu-btn{animation:sundi-quiet-in .5s cubic-bezier(.22,1,.36,1) .24s both}
+html.has-entrance .hp{animation:sundi-product-in 1.06s cubic-bezier(.16,1,.3,1) .27s both}
+html.has-entrance .lede{animation:sundi-copy-in .8s cubic-bezier(.22,1,.36,1) .53s both}
+html.has-entrance .shop{animation:sundi-quiet-in .52s cubic-bezier(.22,1,.36,1) 1.02s both}
+html.has-entrance .card{animation:sundi-card-in .66s cubic-bezier(.22,1,.36,1) 1.15s both}
+@keyframes sundi-brand-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes sundi-quiet-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes sundi-product-in{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes sundi-copy-in{from{opacity:0;clip-path:inset(0 0 100% 0);transform:translateY(9px)}to{opacity:1;clip-path:inset(0);transform:none}}
+@keyframes sundi-card-in{from{opacity:0;clip-path:inset(0 7% 0 0);transform:translateY(8px)}to{opacity:1;clip-path:inset(0);transform:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html.has-entrance .logo,html.has-entrance .nav li,html.has-entrance .cart,html.has-entrance .menu-btn,html.has-entrance .hp,html.has-entrance .lede,html.has-entrance .shop,html.has-entrance .card{animation:none!important}}
 </style>
 </head>
 <body>
@@ -253,6 +271,11 @@ p{margin:0}
 b.addEventListener('click',()=>{const o=h.classList.toggle('nav-open');b.setAttribute('aria-expanded',o)});
 document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>{h.classList.remove('nav-open');b.setAttribute('aria-expanded','false')}));
 addEventListener('keydown',e=>{if(e.key==='Escape'){h.classList.remove('nav-open');b.setAttribute('aria-expanded','false')}});})();
+if(document.documentElement.classList.contains('has-entrance')){
+ document.querySelector('.card').addEventListener('animationend',e=>{
+  if(e.animationName==='sundi-card-in')document.documentElement.classList.remove('has-entrance');
+ },{once:true});
+}
 </script>
 </body>
 </html>
